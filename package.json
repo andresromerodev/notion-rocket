@@ -4,7 +4,7 @@
   "description": "A CLI tool to sync your RocketBook notes with Notion.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
