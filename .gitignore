@@ -105,3 +105,4 @@ dist
 
 # Google Credentials
 /google/credentials.json
+/google/token.json
