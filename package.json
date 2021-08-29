@@ -1,0 +1,31 @@
+{
+  "name": "notion-rocket",
+  "version": "1.0.0",
+  "description": "A CLI tool to sync your RocketBook notes with Notion.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andresromeroh/notion-rocket.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andresromeroh/notion-rocket/issues"
+  },
+  "homepage": "https://github.com/andresromeroh/notion-rocket#readme",
+  "dependencies": {
+    "@notionhq/client": "^0.3.1",
+    "boxen": "^5.0.1",
+    "chalk": "^4.1.2",
+    "googleapis": "^39.2.0",
+    "inquirer": "^8.1.2",
+    "install": "^0.13.0",
+    "npm": "^7.21.1",
+    "ora": "^6.0.0",
+    "yargs": "^17.1.1"
+  }
+}
