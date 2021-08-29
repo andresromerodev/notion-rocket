@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
 
-const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const TOKEN_PATH = 'google/token.json';
 
 let drive;
@@ -71,7 +71,20 @@ function listFiles() {
   });
 }
 
+async function downloadFile() {
+  const fileId = 'not_a_real_google_drive_id';
+  const dest = 'assets/transcription.txt';
+  drive.files.export(
+    { fileId: fileId,
+      mimeType: 'text/plain' }
+  ).then(res => {
+    console.log(res.data)
+    fs.writeFileSync(dest, res.data, { flag: 'a+' });
+  }).catch((e) => console.log(e)); 
+}
+
 module.exports = {
   connectToGoogleDrive,
   listFiles,
+  downloadFile,
 }

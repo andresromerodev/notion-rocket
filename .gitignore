@@ -106,3 +106,6 @@ dist
 # Google Credentials
 /google/credentials.json
 /google/token.json
+
+# Notion Notes
+/temp/*.txt

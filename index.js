@@ -1,3 +1,3 @@
-const { connectToGoogleDrive, listFiles } = require("./google/drive");
+const { connectToGoogleDrive, listFiles, downloadFile } = require("./google/drive");
 
-connectToGoogleDrive().then(() => listFiles());
+connectToGoogleDrive().then(() => downloadFile());
