@@ -3,13 +3,13 @@ const readline = require('readline');
 const { google } = require('googleapis');
 
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
-const TOKEN_PATH = 'google/token.json';
+const TOKEN_PATH = 'credentials/google.token.json';
 
 let drive;
 
 async function connectToGoogleDrive() {
   return new Promise((resolve, reject) => {
-    fs.readFile('google/credentials.json', (err, content) => {
+    fs.readFile('credentials/google.credentials.json', (err, content) => {
       if (err) reject(`Error loading client secret file: ${err}`);
       authorize(JSON.parse(content), resolve, reject);
     });
@@ -73,7 +73,7 @@ function listFiles() {
 
 async function downloadFile() {
   const fileId = 'not_a_real_google_drive_id';
-  const dest = 'assets/transcription.txt';
+  const dest = 'temp/transcription.txt';
   drive.files.export(
     { fileId: fileId,
       mimeType: 'text/plain' }

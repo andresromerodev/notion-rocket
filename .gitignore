@@ -104,8 +104,8 @@ dist
 .tern-port
 
 # Google Credentials
-/google/credentials.json
-/google/token.json
+/config/*.credentials.json
+/config/*.token.json
 
 # Notion Notes
 /temp/*.txt
