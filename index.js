@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const figlet = require('figlet');
 
 const { connectToGoogleDrive, downloadRocketBookNotes } = require('./google/drive');
+const { connectToNotion, submitRocketBookNotes } = require('./notion/notion');
 
 async function intro() {
   return new Promise((resolve, reject) => {
@@ -23,6 +24,9 @@ async function main() {
   await intro();
   await connectToGoogleDrive();
   await downloadRocketBookNotes();
+  await connectToNotion();
+  await submitRocketBookNotes();
+  
   console.log(
     chalk.green(
       boxen(

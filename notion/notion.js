@@ -40,6 +40,7 @@ async function createNote(title, content) {
         {
           object: 'block',
           type: 'paragraph',
+          has_children: true,
           paragraph: {
             text: [
               {
@@ -51,14 +52,43 @@ async function createNote(title, content) {
         },
       ],
     });
-    console.log(response);
-    console.log("Success! Entry added.");
+    return response;
   } catch (e) {
     console.error(e.body);
   }
 }
 
+async function getRocketBookFileNames() {
+  let rocketBookNotes = [];
+  return new Promise((resolve, reject) => {
+    fs.readdir('temp', async (err, files) => {
+      if (err) reject('Error reading directory: /temp');
+      for await (const fileName of files) {
+        if(!fileName.includes('.gitkeep')) 
+          rocketBookNotes.push(fileName);
+      }
+      resolve(rocketBookNotes);
+    });
+  })
+}
+
+async function submitRocketBookNotes() {
+  const promises = [];
+  const files = await getRocketBookFileNames();
+  for (const fileName of files) {
+    const promise = new Promise((resolve, reject) => {
+      fs.readFile(`temp/${fileName}`, 'utf-8', async (err, data) => {
+        if (err) reject(`Error reading file: ${fileName}`);
+        const response = await createNote(fileName.split('.txt')[0], data);
+        resolve(response);
+      });
+    })
+    promises.push(promise);
+  }
+  await Promise.all(promises);
+}
+
 module.exports = {
   connectToNotion,
-  createNote,
+  submitRocketBookNotes,
 }

@@ -80,7 +80,7 @@ async function downloadRocketBookNotes() {
         fileId: id, 
         mimeType: 'text/plain' 
       });
-      fs.writeFileSync(destination, data, { flag: 'a+' });
+      fs.writeFileSync(destination, data, { flag: 'w+' });
     }
   } catch (e) {
     console.log(e);
