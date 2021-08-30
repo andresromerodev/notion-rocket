@@ -21,11 +21,12 @@
     "@notionhq/client": "^0.3.1",
     "boxen": "^5.0.1",
     "chalk": "^4.1.2",
+    "figlet": "^1.5.2",
     "googleapis": "^39.2.0",
     "inquirer": "^8.1.2",
     "install": "^0.13.0",
     "npm": "^7.21.1",
-    "ora": "^6.0.0",
+    "ora": "^5.4.1",
     "yargs": "^17.1.1"
   }
 }

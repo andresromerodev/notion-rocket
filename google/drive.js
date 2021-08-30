@@ -3,13 +3,13 @@ const readline = require('readline');
 const { google } = require('googleapis');
 
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
-const TOKEN_PATH = 'credentials/google.token.json';
+const TOKEN_PATH = 'config/google.token.json';
 
 let drive;
 
 async function connectToGoogleDrive() {
   return new Promise((resolve, reject) => {
-    fs.readFile('credentials/google.credentials.json', (err, content) => {
+    fs.readFile('config/google.credentials.json', (err, content) => {
       if (err) reject(`Error loading client secret file: ${err}`);
       authorize(JSON.parse(content), resolve, reject);
     });
@@ -46,28 +46,29 @@ function getAccessToken(oAuth2Client, resolve, reject) {
       fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
         if (err) reject(err);
         console.log('Token stored to', TOKEN_PATH);
+        drive = google.drive({ version: 'v3', auth: oAuth2Client });
+        resolve(drive);
       });
-      drive = google.drive({ version: 'v3', auth: oAuth2Client });
-      resolve(drive);
     });
   });
 }
 
-function listFiles() {
-  drive.files.list({
-    pageSize: 10,
-    fields: 'nextPageToken, files(id, name)',
-  }, (err, res) => {
-    if (err) return console.log('The API returned an error: ' + err);
-    const files = res.data.files;
-    if (files.length) {
-      console.log('Files:');
-      files.map((file) => {
-        console.log(`${file.name} (${file.id})`);
-      });
-    } else {
-      console.log('No files found.');
-    }
+async function listFiles() {
+  return new Promise((resolve, reject) => {
+    drive.files.list({
+      pageSize: 10,
+      fields: 'nextPageToken, files(id, name)',
+    }, (err, res) => {
+      if (err) reject(`The API returned an error: ${err}`);
+      const files = res.data.files;
+      if (files.length) {
+        console.log('Files:');
+        files.map((file) => console.log(`${file.name} (${file.id})`));
+      } else {
+        console.log('No files found.');
+      }
+      resolve();
+    });
   });
 }
 
