@@ -53,39 +53,41 @@ function getAccessToken(oAuth2Client, resolve, reject) {
   });
 }
 
-async function listFiles() {
+async function getRocketBookNotes() {
   return new Promise((resolve, reject) => {
+    let rocketBookNotes = [];
     drive.files.list({
       pageSize: 10,
       fields: 'nextPageToken, files(id, name)',
     }, (err, res) => {
       if (err) reject(`The API returned an error: ${err}`);
       const files = res.data.files;
-      if (files.length) {
-        console.log('Files:');
-        files.map((file) => console.log(`${file.name} (${file.id})`));
-      } else {
-        console.log('No files found.');
-      }
-      resolve();
+      if (files.length)
+        rocketBookNotes = files
+          .filter(({ name }) => name.includes('Transcription'))
+          .map(({ id, name }) => ({ id, name: name.split('.pdf')[0] }));
+      resolve(rocketBookNotes);
     });
   });
 }
 
-async function downloadFile() {
-  const fileId = 'not_a_real_google_drive_id';
-  const dest = 'temp/transcription.txt';
-  drive.files.export(
-    { fileId: fileId,
-      mimeType: 'text/plain' }
-  ).then(res => {
-    console.log(res.data)
-    fs.writeFileSync(dest, res.data, { flag: 'a+' });
-  }).catch((e) => console.log(e)); 
+async function downloadRocketBookNotes() {
+  const rocketBookNotes = await getRocketBookNotes();
+  try {
+    for await (const { id, name } of rocketBookNotes) {
+      const destination = `temp/${name}.txt`;
+      const { data } = await drive.files.export({ 
+        fileId: id, 
+        mimeType: 'text/plain' 
+      });
+      fs.writeFileSync(destination, data, { flag: 'a+' });
+    }
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 module.exports = {
   connectToGoogleDrive,
-  listFiles,
-  downloadFile,
+  downloadRocketBookNotes,
 }

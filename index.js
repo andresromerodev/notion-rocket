@@ -2,7 +2,7 @@ const boxen = require('boxen');
 const chalk = require('chalk');
 const figlet = require('figlet');
 
-const { connectToGoogleDrive, listFiles } = require('./google/drive');
+const { connectToGoogleDrive, downloadRocketBookNotes } = require('./google/drive');
 
 async function intro() {
   return new Promise((resolve, reject) => {
@@ -14,15 +14,15 @@ async function intro() {
   })
 }
 
-function errorHandler({ message }) {
-  console.error('\n' + chalk.redBright(message));
+function errorHandler({ stack }) {
+  console.error('\n' + chalk.redBright(stack));
   process.exit(1);
 }
 
 async function main() {
   await intro();
   await connectToGoogleDrive();
-  await listFiles();
+  await downloadRocketBookNotes();
   console.log(
     chalk.green(
       boxen(
