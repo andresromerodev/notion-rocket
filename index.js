@@ -9,7 +9,6 @@ async function intro() {
   return new Promise((resolve, reject) => {
     figlet('Notion Rocket', function(err, data) {
       if (err) reject('Something went wrong');
-      console.log(data);
       resolve(data);
     });
   })
