@@ -10,6 +10,3 @@ Before using the CLI make sure to create a Google Cloud Platform project with th
 2. Create authorization credentials for the application, to learn how to create credentials for a desktop application, refer to [Create credentials](https://developers.google.com/workspace/guides/create-credentials). Make sure to download the OAuth client created JSON as you will need it to run the app.
 
 3. Once the project and the credentials are setup you will need to enable the Google Drive API, to enable the Google Drive API you can do it from the [API and Services Management Portal](https://console.cloud.google.com/apis/api/drive.googleapis.com/overview)
-
-## Notion / Rocketbook Integration
-Coming soon... ✨
